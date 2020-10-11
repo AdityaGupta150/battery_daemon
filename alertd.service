@@ -1,0 +1,12 @@
+[Unit]
+Description=Battery Level Daemon
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/alertd
+Restart=on-failure
+RestartSec=10
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

@@ -1,7 +1,7 @@
 # Battery Level Daemon v1.5
 
 **_A daemon, that notifies the user about battery charge based on threshholds._**
-
+It has a very very negligible footprint on system resources, on my Ryzen 5, it's CPU usage is about 0.0% always, and 4MB ram memory
 
 ## Purpose
 
@@ -9,15 +9,17 @@
 
 Notify the user, when the laptop battery charge crosses particular MIN and MAX thresholds.
 
-## Compiling
+## Using
 
 ----
 
+Compile,
 ```sh
 make    # to compile
-# or can directly compile AND run
-make run    # compile AND run
+# or can compile AND run once
+make run    # compile AND, run once
 ```
+Then add the ./alertd executable to auto start at boot time
 
 
 ## Explanation
@@ -57,3 +59,6 @@ This program aims to atleast let the cautious users know when the thresholds are
     > The 20% and 80% are the defaults, can easily be changed
 
 * The notifications are of normal priority, and short enough to not bug you, if you want to ignore
+
+
+> Version 1.5 is the first version :smile:

@@ -22,7 +22,8 @@ char tmp[15];
 short smaller(const char *a, const char *b){
     if(strlen(a) < strlen(b))   return 1;
 
-    return (strcmp(a, b) == -1);
+    if((*a)<(*b))   return 1;   //compare 1st digit
+    return a[1]<=b[1];
 }
 
 void alertLow(){
@@ -72,14 +73,12 @@ void make_daemon(){
     */
     if(setsid() < 0){    //make session leader
         syslog(0, "Couldn't set seesion_id for alerter");
-        exit(EXIT_FAILURE);
+        exit(2);
     }
-
 
     // Handling signals
     signal( SIGCHLD, SIG_IGN );
     signal( SIGHUP, SIG_IGN );
-
 
     //let the parent process terminate to ensure that you get rid of the session leading process. (Only session leaders may get a TTY again.)
     pid = fork();
@@ -88,8 +87,7 @@ void make_daemon(){
     else if(pid > 0)    // terminate parent
         exit(0);
 
-
-    umask(004); //read permission
+    umask(222); //DONT GRANT WRITE permission
     chdir("/sys/class/power_supply/BAT0");
 
     // close();
@@ -101,7 +99,9 @@ int main(){
     char current[5];
     notify_init("Alerter");
 
-    make_daemon();    //daeomonize it
+    #ifndef WILL_RUN_BY_SYSTEMD
+        make_daemon();    //daeomonize it
+    #endif
 
     while (1){
         fin = fopen("capacity", "r");
